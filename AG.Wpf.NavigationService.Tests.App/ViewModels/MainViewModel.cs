@@ -1,34 +1,42 @@
+using AG.Wpf.NavigationService.Tests.App.Data;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
-        public MainViewModel()
+        #region Variables
+        private readonly IDataService dataService;
+        #endregion
+
+        #region Binding variables
+        public IFrameNavigationService FrameNav { get; private set; }
+        public IContentNavigationService ContentNav { get; private set; }
+        #endregion
+
+        #region Commands
+        public RelayCommand LoadedCommand { get; private set; }
+        #endregion
+
+        #region Constructors
+        public MainViewModel(IDataService d, IFrameNavigationService f, IContentNavigationService c)
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            dataService = d;
+            FrameNav = f;
+            ContentNav = c;
+
+            LoadedCommand = new RelayCommand(LoadedExecuted);
         }
+        #endregion
+
+        #region Commands Executed
+        private void LoadedExecuted()
+        {
+            FrameNav.NavigateTo(typeof(Page1ViewModel).Name);
+            ContentNav.NavigateTo(typeof(Ctrl1ViewModel).Name);
+        }
+        #endregion
+
     }
 }

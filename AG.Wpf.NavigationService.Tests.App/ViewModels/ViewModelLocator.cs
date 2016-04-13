@@ -1,61 +1,79 @@
-/*
-  In App.xaml:
-  <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:AG.Wpf.NavigationService.Tests.App"
-                           x:Key="Locator" />
-  </Application.Resources>
-  
-  In the View:
-  DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
-
-  You can also use Blend to do all this with the tool's support.
-  See http://www.galasoft.ch/mvvm
-*/
-
+using AG.Wpf.NavigationService.Tests.App.Data;
+using AG.Wpf.NavigationService.Tests.App.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
 namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
-    /// <summary>
-    /// This class contains static references to all the view models in the
-    /// application and provides an entry point for the bindings.
-    /// </summary>
     public class ViewModelLocator
     {
-        /// <summary>
-        /// Initializes a new instance of the ViewModelLocator class.
-        /// </summary>
+        #region ViewModels
+        public MainViewModel Main { get { return ServiceLocator.Current.GetInstance<MainViewModel>(); } }
+        //public DialogViewModel Dialog { get { return ServiceLocator.Current.GetInstance<DialogViewModel>(); } }
+
+        public Page1ViewModel Page1 { get { return ServiceLocator.Current.GetInstance<Page1ViewModel>(); } }
+        public Page2ViewModel Page2 { get { return ServiceLocator.Current.GetInstance<Page2ViewModel>(); } }
+        public Page3ViewModel Page3 { get { return ServiceLocator.Current.GetInstance<Page3ViewModel>(); } }
+
+        public Ctrl1ViewModel Control1 { get { return ServiceLocator.Current.GetInstance<Ctrl1ViewModel>(); } }
+        public Ctrl2ViewModel Control2 { get { return ServiceLocator.Current.GetInstance<Ctrl2ViewModel>(); } }
+        public Ctrl3ViewModel Control3 { get { return ServiceLocator.Current.GetInstance<Ctrl3ViewModel>(); } }
+        #endregion
+
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                SimpleIoc.Default.Register<IDataService, DesignDataService>();
+                SimpleIoc.Default.Register<IFrameNavigationService, FrameDesignNavigationService>();
+                SimpleIoc.Default.Register<IContentNavigationService, ContentDesignNavigationService>();
+            }
+            else
+            {
+                SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<IFrameNavigationService>(() => CreateFrameNavSvc());
+                SimpleIoc.Default.Register<IContentNavigationService>(() => CreateContentNavSvc());
+            }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            //SimpleIoc.Default.Register<DialogViewModel>();
+
+            SimpleIoc.Default.Register<Page1ViewModel>();
+            SimpleIoc.Default.Register<Page2ViewModel>();
+            SimpleIoc.Default.Register<Page3ViewModel>();
+
+            SimpleIoc.Default.Register<Ctrl1ViewModel>();
+            SimpleIoc.Default.Register<Ctrl2ViewModel>();
+            SimpleIoc.Default.Register<Ctrl3ViewModel>();
         }
 
-        public MainViewModel Main
+        private MainWindow GetMainWindow()
         {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
+            return App.Current.MainWindow as MainWindow;
         }
-        
-        public static void Cleanup()
+
+        private FrameNavigationService CreateFrameNavSvc()
         {
-            // TODO Clear the ViewModels
+            var fns = new FrameNavigationService(() => GetMainWindow().MainFrame);
+            fns.ConfigurePage(typeof(Page1ViewModel).Name, @"Views\Page1View.xaml");
+            fns.ConfigurePage(typeof(Page2ViewModel).Name, @"Views\Page2View.xaml");
+            fns.ConfigurePage(typeof(Page3ViewModel).Name, @"Views\Page3View.xaml");
+            //fns.ConfigureWindow(typeof(DialogViewModel).Name, () => new DialogView());
+            return fns;
         }
+
+        private ContentNavigationService CreateContentNavSvc()
+        {
+            var cns = new ContentNavigationService(() => GetMainWindow().MainContent);
+            cns.ConfigureView(typeof(Ctrl1ViewModel).Name, () => new Ctrl1View());
+            cns.ConfigureView(typeof(Ctrl2ViewModel).Name, () => new Ctrl2View());
+            cns.ConfigureView(typeof(Ctrl3ViewModel).Name, () => new Ctrl3View());
+            //cns.ConfigureWindow(typeof(DialogViewModel).Name, () => new DialogView());
+            return cns;
+        }
+
     }
 }

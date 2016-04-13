@@ -4,12 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AG.Wpf.NavigationService.Tests.App"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:c="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
+        WindowStartupLocation="CenterScreen"
         Title="Navigation Service Sample" 
         Height="480" Width="640">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <c:EventToCommand Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Page Navigation"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding FrameNav.CurrentPageKey}"/>
+        <Frame Grid.Row="2" Grid.Column="0" Name="MainFrame" NavigationUIVisibility="Hidden"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="UserControl Navigation"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ContentNav.CurrentPageKey}"/>
+        <ContentControl Grid.Row="2" Grid.Column="1" Name="MainContent"/>
         
     </Grid>
     

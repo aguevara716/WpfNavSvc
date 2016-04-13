@@ -12,6 +12,24 @@
             <vm:ViewModelLocator x:Key="Locator" 
                                  d:IsDataSource="True" 
                                  xmlns:vm="clr-namespace:AG.Wpf.NavigationService.Tests.App.ViewModels" />
+            
+            <Style TargetType="Page">
+                <Setter Property="Background" Value="White"/>
+            </Style>
+            <Style TargetType="UserControl">
+                <Setter Property="Background" Value="White"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="MinWidth" Value="120"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
     

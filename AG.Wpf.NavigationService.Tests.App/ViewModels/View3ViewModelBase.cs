@@ -1,0 +1,70 @@
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using System;
+using System.Threading.Tasks;
+
+namespace AG.Wpf.NavigationService.Tests.App.ViewModels
+{
+    public abstract class View3ViewModelBase : ViewModelBase
+    {
+        #region Variables
+        private bool continueLooping;
+        #endregion
+
+        #region Binding variables
+        protected DateTime currentTime;
+        public DateTime CurrentTime
+        {
+            get { return currentTime; }
+            set { Set(nameof(CurrentTime), ref currentTime, value); }
+        }
+        #endregion
+
+        #region Commands
+        public RelayCommand LoadedCommand { get; protected set; }
+        public RelayCommand UnloadedCommand { get; protected set; }
+        public RelayCommand BackCommand { get; protected set; }
+        public RelayCommand ForwardCommand { get; protected set; }
+        #endregion
+
+        #region Constructors
+        public View3ViewModelBase()
+        {
+            CurrentTime = DateTime.Now;
+
+            LoadedCommand = new RelayCommand(LoadedExecuted);
+            UnloadedCommand = new RelayCommand(UnloadedExecuted);
+            ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
+            BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
+        }
+        #endregion
+
+        #region Private methods
+        #endregion
+
+        #region Commands CanExecute
+        protected abstract bool BackCanExecute();
+        protected abstract bool ForwardCanExecute();
+        #endregion
+
+        #region Commands Executed
+        protected async void LoadedExecuted()
+        {
+            continueLooping = true;
+            while (continueLooping == true)
+            {
+                CurrentTime = DateTime.Now;
+                await Task.Delay(1000);
+            }
+        }
+
+        protected void UnloadedExecuted()
+        {
+            continueLooping = false;
+        }
+
+        protected abstract void BackExecuted();
+        protected abstract void ForwardExecuted();
+        #endregion
+    }
+}
