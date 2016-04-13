@@ -45,11 +45,6 @@ namespace AG.Wpf.NavigationService
             return targetContent;
         }
 
-        private void UpdatePageKey()
-        {
-            CurrentPageKey = (GetTargetContent().Content as UserControl).DataContext.GetType().Name;
-        }
-
         private void PushCurrentViewToStack(NavigationType navType)
         {
             if(String.IsNullOrEmpty(CurrentPageKey) == false)
@@ -88,7 +83,7 @@ namespace AG.Wpf.NavigationService
                 if (viewsByKey.ContainsKey(pageKey) == false)
                     throw new ArgumentException($"No such page: {pageKey}. Did you forget to call the Configure method?", nameof(pageKey));
                 GetTargetContent().Content = viewsByKey[pageKey].Invoke();
-                UpdatePageKey();
+                CurrentPageKey = pageKey;
                 ViewParameter = parameter;
             }
         }
