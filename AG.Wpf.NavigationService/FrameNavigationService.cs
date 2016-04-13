@@ -12,11 +12,9 @@ namespace AG.Wpf.NavigationService
         #region Variables
         private readonly Func<Frame> FRAME_GETTER;
         private readonly Dictionary<string, Uri> pagesByKey = new Dictionary<string, Uri>();
-        private readonly Dictionary<string, Func<Window>> windowsByKey = new Dictionary<string, Func<Window>>();
         private Frame targetFrame;
 
         public object ViewParameter { get; private set; }
-        public object WindowParameter { get; private set; }
         #endregion
 
         #region Binding variables
@@ -89,28 +87,6 @@ namespace AG.Wpf.NavigationService
             }
         }
 
-        public void OpenWindow(string key, bool isTopMost, bool isDialog)
-        {
-            OpenWindow(key, null, isTopMost, isDialog);
-        }
-
-        public void OpenWindow(string key, object parameter, bool isTopMost, bool isDialog)
-        {
-            lock (windowsByKey)
-            {
-                if (windowsByKey.ContainsKey(key) == false)
-                    throw new ArgumentException($"No such window: {key}. Did you forget to call the Configure method?", nameof(key));
-                WindowParameter = WindowParameter;
-                var window = windowsByKey[key].Invoke();
-                window.Topmost = isTopMost;
-                //TODO figure out how to get the owner 
-                if (isDialog)
-                    window.ShowDialog();
-                else
-                    window.Show();
-            }
-        }
-
         public void ConfigurePage(string key, string pageUri)
         {
             ConfigurePage(key, new Uri(pageUri, UriKind.Relative));
@@ -125,18 +101,6 @@ namespace AG.Wpf.NavigationService
                 if (pagesByKey.Any(p => p.Value == pageUri) == true)
                     throw new ArgumentException($"This type has already been configured with key {pagesByKey.First(p => p.Value == pageUri).Key}", nameof(pageUri));
                 pagesByKey.Add(key, pageUri);
-            }
-        }
-
-        public void ConfigureWindow(string key, Func<Window> ctor)
-        {
-            lock (windowsByKey)
-            {
-                if (windowsByKey.ContainsKey(key) == true)
-                    throw new ArgumentException($"This key has already been used: {key}", nameof(key));
-                if (windowsByKey.Any(w => w.Value == ctor) == true)
-                    throw new ArgumentException($"This type has already been configured with key {windowsByKey.First(w => w.Value == ctor).Key}", nameof(ctor));
-                windowsByKey.Add(key, ctor);
             }
         }
         #endregion

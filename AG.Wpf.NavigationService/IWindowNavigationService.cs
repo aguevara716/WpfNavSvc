@@ -6,7 +6,7 @@ namespace AG.Wpf.NavigationService
     /// An interface defining how opening Windows and passing parameters to them
     /// should be performed in WPF following the MVVM design pattern.
     /// </summary>
-    public interface IWpfNavigationService : INavigationService
+    public interface IWindowNavigationService
     {
         object WindowParameter { get; }
         

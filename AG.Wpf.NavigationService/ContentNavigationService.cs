@@ -12,13 +12,11 @@ namespace AG.Wpf.NavigationService
         #region Variables
         private readonly Func<ContentControl> CONTENT_GETTER;
         private readonly Dictionary<string, Func<UserControl>> viewsByKey = new Dictionary<string, Func<UserControl>>();
-        private readonly Dictionary<string, Func<Window>> windowsByKey = new Dictionary<string, Func<Window>>();
         private readonly Stack<Tuple<string, object>> backStack = new Stack<Tuple<string, object>>();
         private readonly Stack<Tuple<string, object>> forwardStack = new Stack<Tuple<string, object>>();
         private ContentControl targetContent;
 
         public object ViewParameter { get; private set; }
-        public object WindowParameter { get; private set; }
         #endregion
 
         #region Binding variables
@@ -120,28 +118,6 @@ namespace AG.Wpf.NavigationService
             NavigateTo(pageKey, parameter, NavigationType.Move);
         }
 
-        public void OpenWindow(string key, bool isTopMost, bool isDialog)
-        {
-            OpenWindow(key, null, isTopMost, isDialog);
-        }
-
-        public void OpenWindow(string key, object parameter, bool isTopMost, bool isDialog)
-        {
-            lock (windowsByKey)
-            {
-                if (windowsByKey.ContainsKey(key) == false)
-                    throw new ArgumentException($"No such window: {key}. Did you forget to call the Configure method?", nameof(key));
-                WindowParameter = parameter;
-                var window = windowsByKey[key].Invoke();
-                window.Topmost = isTopMost;
-                //TODO figure out how to get the owner 
-                if (isDialog == true)
-                    window.ShowDialog();
-                else
-                    window.Show();
-            }
-        }
-
         public void ConfigureView(string key, Func<UserControl> ctor)
         {
             lock (viewsByKey)
@@ -151,18 +127,6 @@ namespace AG.Wpf.NavigationService
                 if (viewsByKey.Any(v => v.Value == ctor) == true)
                     throw new ArgumentException($"This type has already been configured with key {viewsByKey.First(v => v.Value == ctor).Key}", nameof(ctor));
                 viewsByKey.Add(key, ctor);
-            }
-        }
-
-        public void ConfigureWindow(string key, Func<Window> ctor)
-        {
-            lock (windowsByKey)
-            {
-                if (windowsByKey.ContainsKey(key) == true)
-                    throw new ArgumentException($"This key has already been used: {key}", nameof(key));
-                if (windowsByKey.Any(w => w.Value == ctor) == true)
-                    throw new ArgumentException($"This type has already been configured with key {windowsByKey.First(v => v.Value == ctor).Key}", nameof(ctor));
-                windowsByKey.Add(key, ctor);
             }
         }
         #endregion

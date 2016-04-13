@@ -1,6 +1,8 @@
-﻿namespace AG.Wpf.NavigationService
+﻿using GalaSoft.MvvmLight.Views;
+
+namespace AG.Wpf.NavigationService
 {
-    public interface IContentNavigationService : IWpfNavigationService
+    public interface IContentNavigationService : INavigationService
     {
         new string CurrentPageKey { get; set; }
         object ViewParameter { get; }
