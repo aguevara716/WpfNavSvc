@@ -83,7 +83,8 @@ namespace AG.Wpf.NavigationService
             {
                 if (pagesByKey.ContainsKey(pageKey) == false)
                     throw new ArgumentException($"No such page: {pageKey}. Did you forget to call the Configure method?", nameof(pageKey));
-                GetTargetFrame().Source = pagesByKey[pageKey];
+                GetTargetFrame().Navigate(pagesByKey[pageKey]);
+                CurrentPageKey = pageKey;
                 ViewParameter = parameter;
             }
         }

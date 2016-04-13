@@ -58,6 +58,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContentNavSvcTests.cs" />
+    <Compile Include="FrameNavSvcTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
