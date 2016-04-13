@@ -10,7 +10,7 @@
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         WindowStartupLocation="CenterScreen"
         Title="Navigation Service Sample" 
-        Height="480" Width="640">
+        Height="320" Width="380">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
