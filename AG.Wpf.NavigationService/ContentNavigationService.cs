@@ -43,43 +43,43 @@ namespace AG.Wpf.NavigationService
             return targetContent;
         }
 
-        private void PushCurrentViewToStack(NavigationType navType)
+        private void PushCurrentViewToStack(NavigationDirection navDirection)
         {
             if(String.IsNullOrEmpty(CurrentPageKey) == false)
             {
                 var currentTuple = new Tuple<string, object>(CurrentPageKey, ViewParameter);
-                switch (navType)
+                switch (navDirection)
                 {
-                    case NavigationType.Back:
+                    case NavigationDirection.Back:
                         forwardStack.Push(currentTuple);
                         break;
-                    case NavigationType.Move:
+                    case NavigationDirection.Next:
                         forwardStack.Clear();
-                        goto case NavigationType.Forward;
-                    case NavigationType.Forward:
+                        goto case NavigationDirection.Forward;
+                    case NavigationDirection.Forward:
                         backStack.Push(currentTuple);
                         break;
                 }
             }
         }
 
-        private void GetViewFromStack(NavigationType navType)
+        private void GetViewFromStack(NavigationDirection navDirection)
         {
             Tuple<string, object> nextView = null;
-            if (navType == NavigationType.Back)
+            if (navDirection == NavigationDirection.Back)
                 nextView = backStack.Pop();
-            else if (navType == NavigationType.Forward)
+            else if (navDirection == NavigationDirection.Forward)
                 nextView = forwardStack.Pop();
 
             if (nextView != null)
-                NavigateTo(nextView.Item1, nextView.Item2, navType);
+                NavigateTo(nextView.Item1, nextView.Item2, navDirection);
         }
 
-        private void NavigateTo(string pageKey, object parameter, NavigationType navType)
+        private void NavigateTo(string pageKey, object parameter, NavigationDirection navDirection)
         {
             lock(viewsByKey)
             {
-                PushCurrentViewToStack(navType);
+                PushCurrentViewToStack(navDirection);
                 if (viewsByKey.ContainsKey(pageKey) == false)
                     throw new ArgumentException($"No such page: {pageKey}. Did you forget to call the Configure method?", nameof(pageKey));
                 GetTargetContent().Content = viewsByKey[pageKey].Invoke();
@@ -97,7 +97,7 @@ namespace AG.Wpf.NavigationService
 
         public void GoBack()
         {
-            GetViewFromStack(NavigationType.Back);
+            GetViewFromStack(NavigationDirection.Back);
         }
 
         public bool CanGoForward()
@@ -107,17 +107,17 @@ namespace AG.Wpf.NavigationService
 
         public void GoForward()
         {
-            GetViewFromStack(NavigationType.Forward);
+            GetViewFromStack(NavigationDirection.Forward);
         }
 
         public void NavigateTo(string pageKey)
         {
-            NavigateTo(pageKey, null, NavigationType.Move);
+            NavigateTo(pageKey, null, NavigationDirection.Next);
         }
 
         public void NavigateTo(string pageKey, object parameter)
         {
-            NavigateTo(pageKey, parameter, NavigationType.Move);
+            NavigateTo(pageKey, parameter, NavigationDirection.Next);
         }
 
         public void ConfigureView(string key, Func<UserControl> ctor)

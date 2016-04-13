@@ -1,9 +1,9 @@
 ﻿namespace AG.Wpf.NavigationService
 {
-    internal enum NavigationType
+    internal enum NavigationDirection
     {
         Back,
-        Move,
+        Next,
         Forward
     }
 }
