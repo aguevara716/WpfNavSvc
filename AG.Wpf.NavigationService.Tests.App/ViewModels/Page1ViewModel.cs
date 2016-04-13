@@ -5,30 +5,14 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
     public class Page1ViewModel : View1ViewModelBase
     {
-        #region Variables
         private readonly IFrameNavigationService navService;
-        #endregion
 
-        #region Binding variables
-        #endregion
-
-        #region Commands
-        #endregion
-
-        #region Constructors
-        public Page1ViewModel(IDataService d, IFrameNavigationService fns)
-            : base(d)
         public Page1ViewModel(IDataService d, IFrameNavigationService fns, IWindowNavigationService wns)
             : base(d, wns)
         {
             navService = fns;
-            //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
-            //ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
-            //NextCommand = new RelayCommand(NextExecuted, NextCanExecute);
         }
-        #endregion
 
-        #region Commands CanExecute
         protected override bool BackCanExecute()
         {
             return navService.CanGoBack();
@@ -43,9 +27,7 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         {
             return String.IsNullOrEmpty(Name) == false;
         }
-        #endregion
 
-        #region Commands Executed
         protected override void LoadedExecuted()
         {
             Name = navService.ViewParameter as String;
@@ -65,6 +47,5 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         {
             navService.NavigateTo(typeof(Page2ViewModel).Name, Name);
         }
-        #endregion
     }
 }

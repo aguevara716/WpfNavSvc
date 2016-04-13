@@ -2,30 +2,14 @@
 {
     public class Page3ViewModel : View3ViewModelBase
     {
-        #region Variables
         private readonly IFrameNavigationService navService;
-        #endregion
 
-        #region Binding variables
-        #endregion
-
-        #region Commands
-        
-        #endregion
-
-        #region Constructors
-        public Page3ViewModel(IFrameNavigationService fns)
-            : base()
         public Page3ViewModel(IFrameNavigationService fns, IWindowNavigationService wns)
             : base(wns)
         {
             navService = fns;
-            //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
-            //ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
         }
-        #endregion
 
-        #region Commands CanExecute
         protected override bool BackCanExecute()
         {
             return navService.CanGoBack();
@@ -35,9 +19,7 @@
         {
             return navService.CanGoForward();
         }
-        #endregion
 
-        #region Commands Executed
         protected override void BackExecuted()
         {
             navService.GoBack();
@@ -47,6 +29,5 @@
         {
             navService.GoForward();
         }
-        #endregion
     }
 }

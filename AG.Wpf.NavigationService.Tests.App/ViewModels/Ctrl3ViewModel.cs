@@ -1,39 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AG.Wpf.NavigationService.Tests.App.ViewModels
+﻿namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
     public class Ctrl3ViewModel : View3ViewModelBase
     {
-        #region Variables
         private readonly IContentNavigationService navService;
-        #endregion
 
-        #region Binding variables
-        #endregion
-
-        #region Commands
-        #endregion
-
-        #region Constructors
-        public Ctrl3ViewModel(IContentNavigationService cns)
-            : base()
         public Ctrl3ViewModel(IContentNavigationService cns, IWindowNavigationService wns)
             : base(wns)
         {
             navService = cns;
-            //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
-            //ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
         }
-        #endregion
 
-        #region Private methods
-        #endregion
-
-        #region Commands CanExecute
         protected override bool BackCanExecute()
         {
             return navService.CanGoBack();
@@ -43,9 +19,7 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         {
             return navService.CanGoForward();
         }
-        #endregion
-
-        #region Commands Executed
+        
         protected override void BackExecuted()
         {
             navService.GoBack();
@@ -55,6 +29,5 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         {
             navService.GoForward();
         }
-        #endregion
     }
 }

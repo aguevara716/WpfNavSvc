@@ -5,30 +5,14 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
     public class Ctrl1ViewModel : View1ViewModelBase
     {
-        #region Variables
         private readonly IContentNavigationService navService;
-        #endregion
 
-        #region Binding variables
-        #endregion
-
-        #region Commands
-        #endregion
-
-        #region Constructors
-        public Ctrl1ViewModel(IDataService d, IContentNavigationService cns)
-            : base(d)
         public Ctrl1ViewModel(IDataService d, IContentNavigationService cns, IWindowNavigationService wns)
             : base(d, wns)
         {
             navService = cns;
-            //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
-            //ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
-            //NextCommand = new RelayCommand(NextExecuted, NextCanExecute);
         }
-        #endregion
-
-        #region Commands CanExecute
+        
         protected override bool BackCanExecute()
         {
             return navService.CanGoBack();
@@ -43,9 +27,7 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         {
             return String.IsNullOrEmpty(Name) == false;
         }
-        #endregion
 
-        #region Commands Executed
         protected override void LoadedExecuted()
         {
             Name = navService.ViewParameter as String;
@@ -65,7 +47,6 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         {
             navService.NavigateTo(typeof(Ctrl2ViewModel).Name, Name);
         }
-        #endregion
 
     }
 }
