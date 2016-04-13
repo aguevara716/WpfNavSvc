@@ -24,5 +24,7 @@
         <TextBlock Text="{Binding CurrentTime, StringFormat=The time is {0:hh\:mm\:ss tt}}"/>
         <Button Content="Back" Command="{Binding BackCommand}"/>
         <Button Content="Forward" Command="{Binding ForwardCommand}"/>
+        <Button Content="Dialog" Command="{Binding DialogCommand}"/>
+        <Button Content="Window" Command="{Binding WindowCommand}"/>
     </StackPanel>
 </Page>

@@ -26,6 +26,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:"/>
@@ -34,6 +36,8 @@
         <Button Grid.Row="1" Grid.ColumnSpan="2" Content="Next" Command="{Binding NextCommand}"/>
         <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Back" Command="{Binding BackCommand}"/>
         <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Forward" Command="{Binding ForwardCommand}"/>
+        <Button Grid.Row="4" Grid.ColumnSpan="2" Content="Dialog" Command="{Binding DialogCommand}"/>
+        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Window" Command="{Binding WindowCommand}"/>
     </Grid>
     
 </UserControl>

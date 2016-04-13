@@ -18,6 +18,8 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #region Constructors
         public Page1ViewModel(IDataService d, IFrameNavigationService fns)
             : base(d)
+        public Page1ViewModel(IDataService d, IFrameNavigationService fns, IWindowNavigationService wns)
+            : base(d, wns)
         {
             navService = fns;
             //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);

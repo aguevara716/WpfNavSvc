@@ -22,6 +22,8 @@
         <Button Content="Next" Command="{Binding NextCommand}"/>
         <Button Content="Back" Command="{Binding BackCommand}"/>
         <Button Content="Forward" Command="{Binding ForwardCommand}"/>
+        <Button Content="Dialog" Command="{Binding DialogCommand}"/>
+        <Button Content="Window" Command="{Binding WindowCommand}"/>
     </StackPanel>
     
 </Page>

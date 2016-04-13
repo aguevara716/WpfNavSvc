@@ -18,6 +18,8 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #region Constructors
         public Ctrl1ViewModel(IDataService d, IContentNavigationService cns)
             : base(d)
+        public Ctrl1ViewModel(IDataService d, IContentNavigationService cns, IWindowNavigationService wns)
+            : base(d, wns)
         {
             navService = cns;
             //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);

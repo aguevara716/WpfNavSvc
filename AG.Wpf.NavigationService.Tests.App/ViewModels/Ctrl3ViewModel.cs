@@ -21,6 +21,8 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #region Constructors
         public Ctrl3ViewModel(IContentNavigationService cns)
             : base()
+        public Ctrl3ViewModel(IContentNavigationService cns, IWindowNavigationService wns)
+            : base(wns)
         {
             navService = cns;
             //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);

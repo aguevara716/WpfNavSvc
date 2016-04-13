@@ -16,6 +16,8 @@
         #region Constructors
         public Page3ViewModel(IFrameNavigationService fns)
             : base()
+        public Page3ViewModel(IFrameNavigationService fns, IWindowNavigationService wns)
+            : base(wns)
         {
             navService = fns;
             //BackCommand = new RelayCommand(BackExecuted, BackCanExecute);

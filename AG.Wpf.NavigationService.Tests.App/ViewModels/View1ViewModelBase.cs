@@ -7,6 +7,7 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
     public abstract class View1ViewModelBase : ViewModelBase
     {
         #region Variables
+        protected readonly IWindowNavigationService windowNavService;
         #endregion
 
         #region Binding variables
@@ -23,16 +24,21 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         public RelayCommand NextCommand { get; protected set; }
         public RelayCommand BackCommand { get; protected set; }
         public RelayCommand ForwardCommand { get; protected set; }
+        public RelayCommand DialogCommand { get; protected set; }
+        public RelayCommand WindowCommand { get; protected set; }
         #endregion
 
         #region Constructors
-        public View1ViewModelBase(IDataService data)
+        public View1ViewModelBase(IDataService data, IWindowNavigationService wns)
         {
+            windowNavService = wns;
             this.Name = data.GetName();
             LoadedCommand = new RelayCommand(LoadedExecuted);
             BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
             ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
             NextCommand = new RelayCommand(NextExecuted, NextCanExecute);
+            DialogCommand = new RelayCommand(DialogExecuted);
+            WindowCommand = new RelayCommand(WindowExecuted);
         }
         #endregion
 
@@ -47,6 +53,15 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         protected abstract void NextExecuted();
         protected abstract void BackExecuted();
         protected abstract void ForwardExecuted();
+        protected void DialogExecuted()
+        {
+            windowNavService.OpenWindow("window", false, true);
+        }
+
+        protected void WindowExecuted()
+        {
+            windowNavService.OpenWindow("window", false, false);
+        }
         #endregion
     }
 }
