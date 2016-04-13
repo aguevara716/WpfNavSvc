@@ -54,6 +54,8 @@ namespace AG.Wpf.NavigationService
                         forwardStack.Push(currentTuple);
                         break;
                     case NavigationType.Move:
+                        forwardStack.Clear();
+                        goto case NavigationType.Forward;
                     case NavigationType.Forward:
                         backStack.Push(currentTuple);
                         break;
