@@ -5,8 +5,8 @@
         new string CurrentPageKey { get; set; }
         object ViewParameter { get; }
 
-        //bool CanGoBack();
-        //bool CanGoForward();
-        //void GoForward();
+        bool CanGoBack();
+        bool CanGoForward();
+        void GoForward();
     }
 }
