@@ -11,7 +11,7 @@ namespace AG.Wpf.NavigationService
     {
         #region Variables
         private readonly Func<ContentControl> CONTENT_GETTER;
-        private readonly Dictionary<string, Func<UserControl>> viewsByKey = new Dictionary<string, Func<UserControl>>();
+        private readonly Dictionary<string, Type> viewsByKey = new Dictionary<string, Type>();
         private readonly Stack<Tuple<string, object>> backStack = new Stack<Tuple<string, object>>();
         private readonly Stack<Tuple<string, object>> forwardStack = new Stack<Tuple<string, object>>();
         private ContentControl targetContent;
@@ -77,12 +77,14 @@ namespace AG.Wpf.NavigationService
 
         private void NavigateTo(string pageKey, object parameter, NavigationDirection navDirection)
         {
-            lock(viewsByKey)
+            lock (viewsByKey)
             {
                 PushCurrentViewToStack(navDirection);
                 if (viewsByKey.ContainsKey(pageKey) == false)
                     throw new ArgumentException($"No such page: {pageKey}. Did you forget to call the Configure method?", nameof(pageKey));
-                GetTargetContent().Content = viewsByKey[pageKey].Invoke();
+                var type = viewsByKey[pageKey];
+                var view = type.GetConstructor(Type.EmptyTypes).Invoke(null);
+                GetTargetContent().Content = view;
                 CurrentPageKey = pageKey;
                 ViewParameter = parameter;
             }
@@ -120,15 +122,15 @@ namespace AG.Wpf.NavigationService
             NavigateTo(pageKey, parameter, NavigationDirection.Next);
         }
 
-        public void ConfigureView(string key, Func<UserControl> ctor)
+        public void ConfigureView<T>(string key) where T : UserControl
         {
             lock (viewsByKey)
             {
                 if (viewsByKey.ContainsKey(key) == true)
                     throw new ArgumentException($"This key has already been used: {key}", nameof(key));
-                if (viewsByKey.Any(v => v.Value == ctor) == true)
-                    throw new ArgumentException($"This type has already been configured with key {viewsByKey.First(v => v.Value == ctor).Key}", nameof(ctor));
-                viewsByKey.Add(key, ctor);
+                if (viewsByKey.ContainsValue(typeof(T)) == true)
+                    throw new ArgumentException($"This type has already been configured with key {viewsByKey.First(t => t.Value == typeof(T))}", nameof(T));
+                viewsByKey.Add(key, typeof(T));
             }
         }
         #endregion
