@@ -32,15 +32,16 @@ namespace AG.Wpf.NavigationService.Tests
         /// This test expects to catch an exception.
         /// </summary>
         [TestMethod]
-        public void TestConfigureViewBadParams()
+        public void TestConfigureViewDuplicateKeys()
         {
             try
             {
                 navSvc.ConfigureView<View1>(typeof(View1).Name);
                 Assert.Fail("The exception wasn't thrown");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Assert.IsInstanceOfType(ex, typeof(ArgumentException));
             }
         }
@@ -56,6 +57,7 @@ namespace AG.Wpf.NavigationService.Tests
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Assert.IsInstanceOfType(ex, typeof(ArgumentException));
             }
         }
@@ -105,6 +107,7 @@ namespace AG.Wpf.NavigationService.Tests
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Assert.IsInstanceOfType(ex, typeof(ArgumentException));
             }
         }
@@ -150,10 +153,22 @@ namespace AG.Wpf.NavigationService.Tests
             Assert.AreEqual(typeof(View2).Name, navSvc.CurrentPageKey);
             Assert.AreEqual(uc2Model, navSvc.ViewParameter);
         }
+
+        [TestMethod]
+        public void TestEnsureForwardStackCleared()
+        {
+            navSvc.NavigateTo(typeof(View1).Name);
+            navSvc.NavigateTo(typeof(View2).Name);
+            navSvc.GoBack();
+            navSvc.NavigateTo(typeof(View2).Name);
+            Assert.IsFalse(navSvc.CanGoForward());
+        }
         #endregion
 
-        internal sealed class View1 : UserControl { }
-        internal sealed class View2 : UserControl { }
-        internal sealed class View3 : UserControl { }
+        #region Dummy views
+        private class View1 : UserControl { }
+        private class View2 : UserControl { }
+        private class View3 : UserControl { }
+        #endregion
     }
 }
