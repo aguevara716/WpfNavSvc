@@ -67,9 +67,9 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         private ContentNavigationService CreateContentNavSvc()
         {
             var cns = new ContentNavigationService(() => GetMainWindow().MainContent);
-            cns.ConfigureView(typeof(Ctrl1ViewModel).Name, () => new Ctrl1View());
-            cns.ConfigureView(typeof(Ctrl2ViewModel).Name, () => new Ctrl2View());
-            cns.ConfigureView(typeof(Ctrl3ViewModel).Name, () => new Ctrl3View());
+            cns.ConfigureView<Ctrl1View>(typeof(Ctrl1ViewModel).Name);
+            cns.ConfigureView<Ctrl2View>(typeof(Ctrl2ViewModel).Name);
+            cns.ConfigureView<Ctrl3View>(typeof(Ctrl3ViewModel).Name);
             return cns;
         }
 

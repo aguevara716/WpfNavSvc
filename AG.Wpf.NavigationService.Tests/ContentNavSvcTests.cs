@@ -20,9 +20,9 @@ namespace AG.Wpf.NavigationService.Tests
             targetControl = new ContentControl();
             navSvc = new ContentNavigationService(() => { return targetControl; });
 
-            navSvc.ConfigureView(typeof(UserControl1).Name, () => new UserControl1());
-            navSvc.ConfigureView(typeof(UserControl2).Name, () => new UserControl2());
-            navSvc.ConfigureView(typeof(UserControl3).Name, () => new UserControl3());
+            navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name);
+            navSvc.ConfigureView<UserControl2>(typeof(UserControl2).Name);
+            navSvc.ConfigureView<UserControl3>(typeof(UserControl3).Name);
         }
 
         #region ConfigureView Tests
@@ -35,7 +35,7 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigureView(typeof(UserControl1).Name, () => new UserControl1());
+                navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name);
                 Assert.Fail("The exception wasn't thrown");
             }
             catch(Exception ex)
@@ -49,8 +49,8 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigureView(typeof(UserControl1).Name + "-1", () => new UserControl1());
-                navSvc.ConfigureView(typeof(UserControl1).Name + "-2", () => new UserControl1());
+                navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name + "-1");
+                navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name + "-2");
                 Assert.Fail("The exception wasn't thrown");
             }
             catch (Exception ex)
