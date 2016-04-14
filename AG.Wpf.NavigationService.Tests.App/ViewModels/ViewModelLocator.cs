@@ -1,5 +1,8 @@
+using AG.Wpf.NavigationService.FrameNav;
 using AG.Wpf.NavigationService.Tests.App.Data;
 using AG.Wpf.NavigationService.Tests.App.Views;
+using AG.Wpf.NavigationService.UserControlNav;
+using AG.Wpf.NavigationService.WindowNav;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Controls;
+using AG.Wpf.NavigationService.UserControlNav;
 
 namespace AG.Wpf.NavigationService.Tests
 {

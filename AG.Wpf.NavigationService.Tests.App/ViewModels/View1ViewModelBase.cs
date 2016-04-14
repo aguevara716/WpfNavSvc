@@ -1,4 +1,5 @@
 ﻿using AG.Wpf.NavigationService.Tests.App.Data;
+using AG.Wpf.NavigationService.WindowNav;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 

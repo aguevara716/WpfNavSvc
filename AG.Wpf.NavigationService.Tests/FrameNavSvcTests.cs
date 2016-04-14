@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using AG.Wpf.NavigationService.FrameNav;
 
 namespace AG.Wpf.NavigationService.Tests
 {

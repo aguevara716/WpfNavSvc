@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using AG.Wpf.NavigationService.WindowNav;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Threading.Tasks;

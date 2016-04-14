@@ -1,4 +1,6 @@
 ﻿using AG.Wpf.NavigationService.Tests.App.Data;
+using AG.Wpf.NavigationService.UserControlNav;
+using AG.Wpf.NavigationService.WindowNav;
 using System;
 
 namespace AG.Wpf.NavigationService.Tests.App.ViewModels

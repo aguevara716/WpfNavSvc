@@ -1,4 +1,7 @@
-﻿namespace AG.Wpf.NavigationService.Tests.App.ViewModels
+﻿using AG.Wpf.NavigationService.FrameNav;
+using AG.Wpf.NavigationService.WindowNav;
+
+namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
     public class Page3ViewModel : View3ViewModelBase
     {
