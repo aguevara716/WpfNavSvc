@@ -72,6 +72,7 @@
       <DependentUpon>Page3.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowNavSvcTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AG.Wpf.NavigationService\AG.Wpf.NavigationService.csproj">
