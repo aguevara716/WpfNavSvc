@@ -70,6 +70,7 @@
     <Compile Include="FrameNav\FrameNavigationService.cs" />
     <Compile Include="UserControlNav\IContentNavigationService.cs" />
     <Compile Include="FrameNav\IFrameNavigationService.cs" />
+    <Compile Include="UserControlNav\ViewPair.cs" />
     <Compile Include="WindowNav\IWindowNavigationService.cs" />
     <Compile Include="UserControlNav\NavigationDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

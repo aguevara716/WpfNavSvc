@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace AG.Wpf.NavigationService.UserControlNav
@@ -12,8 +11,8 @@ namespace AG.Wpf.NavigationService.UserControlNav
         #region Variables
         private readonly Func<ContentControl> CONTENT_GETTER;
         private readonly Dictionary<string, Type> viewsByKey = new Dictionary<string, Type>();
-        private readonly Stack<Tuple<string, object>> backStack = new Stack<Tuple<string, object>>();
-        private readonly Stack<Tuple<string, object>> forwardStack = new Stack<Tuple<string, object>>();
+        private readonly Stack<ViewPair> backStack = new Stack<ViewPair>();
+        private readonly Stack<ViewPair> forwardStack = new Stack<ViewPair>();
         private ContentControl targetContent;
 
         public object ViewParameter { get; private set; }
@@ -47,7 +46,7 @@ namespace AG.Wpf.NavigationService.UserControlNav
         {
             if(String.IsNullOrEmpty(CurrentPageKey) == false)
             {
-                var currentTuple = new Tuple<string, object>(CurrentPageKey, ViewParameter);
+                var currentTuple = new ViewPair(CurrentPageKey, ViewParameter);
                 switch (navDirection)
                 {
                     case NavigationDirection.Back:
@@ -65,14 +64,14 @@ namespace AG.Wpf.NavigationService.UserControlNav
 
         private void GetViewFromStack(NavigationDirection navDirection)
         {
-            Tuple<string, object> nextView = null;
+            ViewPair nextView = null;
             if (navDirection == NavigationDirection.Back)
                 nextView = backStack.Pop();
             else if (navDirection == NavigationDirection.Forward)
                 nextView = forwardStack.Pop();
 
             if (nextView != null)
-                NavigateTo(nextView.Item1, nextView.Item2, navDirection);
+                NavigateTo(nextView.ViewKey, nextView.ViewParameter, navDirection);
         }
 
         private void NavigateTo(string pageKey, object parameter, NavigationDirection navDirection)
