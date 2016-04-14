@@ -61,9 +61,9 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         private FrameNavigationService CreateFrameNavSvc()
         {
             var fns = new FrameNavigationService(() => GetMainWindow().MainFrame);
-            fns.ConfigurePage(typeof(Page1ViewModel).Name, @"Views\Page1View.xaml");
-            fns.ConfigurePage(typeof(Page2ViewModel).Name, @"Views\Page2View.xaml");
-            fns.ConfigurePage(typeof(Page3ViewModel).Name, @"Views\Page3View.xaml");
+            fns.ConfigurePage(typeof(Page1ViewModel).Name, @"Views/Page1View.xaml");
+            fns.ConfigurePage(typeof(Page2ViewModel).Name, @"Views/Page2View.xaml");
+            fns.ConfigurePage(typeof(Page3ViewModel).Name, @"Views/Page3View.xaml");
             return fns;
         }
 
