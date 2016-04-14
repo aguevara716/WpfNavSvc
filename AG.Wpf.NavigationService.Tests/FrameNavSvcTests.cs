@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Controls;
-using System.Collections.Generic;
 using AG.Wpf.NavigationService.FrameNav;
+using AG.Wpf.NavigationService.Tests.Pages;
 
 namespace AG.Wpf.NavigationService.Tests
 {
@@ -11,23 +11,18 @@ namespace AG.Wpf.NavigationService.Tests
     {
         private Frame targetFrame;
         private FrameNavigationService navSvc;
-        private readonly Dictionary<string, string> NAV_DICT = new Dictionary<string, string>()
-        {
-            { typeof(Page1ViewModel).Name, "Page1.xaml" },
-            { typeof(Page2ViewModel).Name, "Page2.xaml" },
-            { typeof(Page3ViewModel).Name, "Page3.xaml" },
-        };
 
         [TestInitialize]
         public void BeforeEach()
         {
-            targetFrame = new Frame();
+            var mainWin = new MainWindow();
+            //mainWin.Show();
+            targetFrame = mainWin.MainFrame;
             navSvc = new FrameNavigationService(() => { return targetFrame; });
 
-            foreach (var set in NAV_DICT)
-            {
-                navSvc.ConfigurePage(set.Key, set.Value);
-            }
+            navSvc.ConfigurePage(typeof(Page1).Name, Page1.Path);
+            navSvc.ConfigurePage(typeof(Page2).Name, Page2.Path);
+            navSvc.ConfigurePage(typeof(Page3).Name, Page3.Path);
         }
 
         #region ConfigurePage Tests
@@ -36,12 +31,12 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigurePage(typeof(Page1ViewModel).Name, "Page1.xaml");
+                navSvc.ConfigurePage(typeof(Page1).Name, Page1.Path);
                 Assert.Fail("The exception wasn't thrown");
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -50,12 +45,12 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigurePage(typeof(Page1ViewModel).Name + "-1", "Page1.xaml");
+                navSvc.ConfigurePage(typeof(Page1).Name + "-1", Page1.Path);
                 Assert.Fail("The exception wasn't thrown");
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
+                Console.WriteLine(ex.Message);
             }
         }
         #endregion
@@ -64,27 +59,28 @@ namespace AG.Wpf.NavigationService.Tests
         [TestMethod]
         public void TestNavigateToGoodParams()
         {
-            Action<Type> nav = (vmType) =>
+            Action<string, Uri> nav = (pageKey, pageUri) =>
             {
-                var param = $"Model: {vmType.Name}";
-                navSvc.NavigateTo(vmType.Name, param);
+                var param = $"{pageKey} param";
+                navSvc.NavigateTo(pageKey, param);
 
-                Assert.AreEqual(NAV_DICT[vmType.Name], targetFrame.Source.OriginalString);
-                Assert.AreEqual(vmType.Name, navSvc.CurrentPageKey);
+                Assert.AreEqual(pageUri, targetFrame.Source);
+                Assert.AreEqual(pageKey, navSvc.CurrentPageKey);
                 Assert.AreEqual(param, navSvc.ViewParameter);
             };
-            Assert.IsFalse(navSvc.CanGoForward());
-            Assert.IsFalse(navSvc.CanGoBack());
 
-            nav(typeof(Page1ViewModel));
-            Assert.IsFalse(navSvc.CanGoForward());
             Assert.IsFalse(navSvc.CanGoBack());
+            Assert.IsFalse(navSvc.CanGoForward());
 
-            nav(typeof(Page2ViewModel));
+            nav(typeof(Page1).Name, Page1.Path);
+            Assert.IsFalse(navSvc.CanGoBack());
+            Assert.IsFalse(navSvc.CanGoForward());
+
+            nav(typeof(Page2).Name, Page2.Path);
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
 
-            nav(typeof(Page3ViewModel));
+            nav(typeof(Page3).Name, Page3.Path);
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
         }
@@ -108,13 +104,13 @@ namespace AG.Wpf.NavigationService.Tests
         public void TestGoBack()
         {
             var uc1Model = "uc1 model";
-            navSvc.NavigateTo(typeof(Page1ViewModel).Name, uc1Model);
-            navSvc.NavigateTo(typeof(Page2ViewModel).Name);
+            navSvc.NavigateTo(typeof(Page1).Name, uc1Model);
+            navSvc.NavigateTo(typeof(Page2).Name);
 
             navSvc.GoBack();
 
-            Assert.AreEqual(NAV_DICT[typeof(Page1ViewModel).Name], targetFrame.Source.OriginalString);
-            Assert.AreEqual(typeof(Page1ViewModel).Name, navSvc.CurrentPageKey);
+            Assert.AreEqual(Page1.Path, targetFrame.Source);
+            Assert.AreEqual(typeof(Page1).Name, navSvc.CurrentPageKey);
             Assert.AreEqual(uc1Model, navSvc.ViewParameter);
         }
 
@@ -122,20 +118,17 @@ namespace AG.Wpf.NavigationService.Tests
         public void TestGoForward()
         {
             var uc2Model = "uc2 model";
-            navSvc.NavigateTo(typeof(Page1ViewModel).Name);
-            navSvc.NavigateTo(typeof(Page2ViewModel).Name, uc2Model);
+            navSvc.NavigateTo(typeof(Page1).Name);
+            navSvc.NavigateTo(typeof(Page2).Name, uc2Model);
 
             navSvc.GoBack();
             navSvc.GoForward();
 
-            Assert.AreEqual(NAV_DICT[typeof(Page2ViewModel).Name], targetFrame.Source.OriginalString);
-            Assert.AreEqual(typeof(Page2ViewModel).Name, navSvc.CurrentPageKey);
+            Assert.AreEqual(Page2.Path, targetFrame.Source);
+            Assert.AreEqual(typeof(Page2).Name, navSvc.CurrentPageKey);
             Assert.AreEqual(uc2Model, navSvc.ViewParameter);
         }
         #endregion
 
-        internal sealed class Page1ViewModel { }
-        internal sealed class Page2ViewModel { }
-        internal sealed class Page3ViewModel { }
     }
 }
