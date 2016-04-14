@@ -40,11 +40,6 @@ namespace AG.Wpf.NavigationService.FrameNav
                 targetFrame = FRAME_GETTER();
             return targetFrame;
         }
-
-        private void UpdatePageKey()
-        {
-            CurrentPageKey = (GetTargetFrame().Content as Page).DataContext.GetType().Name;
-        }
         #endregion
 
         #region Public methods
@@ -56,7 +51,11 @@ namespace AG.Wpf.NavigationService.FrameNav
         public void GoBack()
         {
             if (CanGoBack() == true)
+            {
                 GetTargetFrame().GoBack();
+                var key = pagesByKey.First(p => p.Value == GetTargetFrame().Source).Key;
+                CurrentPageKey = key;
+            }
         }
 
         public bool CanGoForward()
@@ -67,7 +66,11 @@ namespace AG.Wpf.NavigationService.FrameNav
         public void GoForward()
         {
             if (CanGoForward() == true)
+            {
                 GetTargetFrame().GoForward();
+                var key = pagesByKey.First(p => p.Value == GetTargetFrame().Source).Key;
+                CurrentPageKey = key;
+            }
         }
 
         public void NavigateTo(string pageKey)
