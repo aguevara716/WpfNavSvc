@@ -20,9 +20,9 @@ namespace AG.Wpf.NavigationService.Tests
             targetControl = new ContentControl();
             navSvc = new ContentNavigationService(() => { return targetControl; });
 
-            navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name);
-            navSvc.ConfigureView<UserControl2>(typeof(UserControl2).Name);
-            navSvc.ConfigureView<UserControl3>(typeof(UserControl3).Name);
+            navSvc.ConfigureView<View1>(typeof(View1).Name);
+            navSvc.ConfigureView<View2>(typeof(View2).Name);
+            navSvc.ConfigureView<View3>(typeof(View3).Name);
         }
 
         #region ConfigureView Tests
@@ -35,7 +35,7 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name);
+                navSvc.ConfigureView<View1>(typeof(View1).Name);
                 Assert.Fail("The exception wasn't thrown");
             }
             catch(Exception ex)
@@ -49,8 +49,8 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name + "-1");
-                navSvc.ConfigureView<UserControl1>(typeof(UserControl1).Name + "-2");
+                navSvc.ConfigureView<View1>(typeof(View1).Name + "-1");
+                navSvc.ConfigureView<View1>(typeof(View1).Name + "-2");
                 Assert.Fail("The exception wasn't thrown");
             }
             catch (Exception ex)
@@ -82,15 +82,15 @@ namespace AG.Wpf.NavigationService.Tests
             Assert.IsFalse(navSvc.CanGoForward());
             Assert.IsFalse(navSvc.CanGoBack());
 
-            nav(typeof(UserControl1));
+            nav(typeof(View1));
             Assert.IsFalse(navSvc.CanGoForward());
             Assert.IsFalse(navSvc.CanGoBack());
 
-            nav(typeof(UserControl2));
+            nav(typeof(View2));
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
 
-            nav(typeof(UserControl3));
+            nav(typeof(View3));
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
         }
@@ -114,8 +114,8 @@ namespace AG.Wpf.NavigationService.Tests
         public void TestGoBack()
         {
             var uc1Model = "uc1 model";
-            navSvc.NavigateTo(typeof(UserControl1).Name, uc1Model);
-            navSvc.NavigateTo(typeof(UserControl2).Name);
+            navSvc.NavigateTo(typeof(View1).Name, uc1Model);
+            navSvc.NavigateTo(typeof(View2).Name);
 
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
@@ -123,8 +123,8 @@ namespace AG.Wpf.NavigationService.Tests
             navSvc.GoBack();
             Assert.IsTrue(navSvc.CanGoForward());
 
-            Assert.IsInstanceOfType(targetControl.Content, typeof(UserControl1));
-            Assert.AreEqual(typeof(UserControl1).Name, navSvc.CurrentPageKey);
+            Assert.IsInstanceOfType(targetControl.Content, typeof(View1));
+            Assert.AreEqual(typeof(View1).Name, navSvc.CurrentPageKey);
             Assert.AreEqual(uc1Model, navSvc.ViewParameter);
         }
 
@@ -132,8 +132,8 @@ namespace AG.Wpf.NavigationService.Tests
         public void TestGoForward()
         {
             var uc2Model = "uc2 model";
-            navSvc.NavigateTo(typeof(UserControl1).Name);
-            navSvc.NavigateTo(typeof(UserControl2).Name, uc2Model);
+            navSvc.NavigateTo(typeof(View1).Name);
+            navSvc.NavigateTo(typeof(View2).Name, uc2Model);
 
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
@@ -145,14 +145,14 @@ namespace AG.Wpf.NavigationService.Tests
             Assert.IsTrue(navSvc.CanGoBack());
             Assert.IsFalse(navSvc.CanGoForward());
 
-            Assert.IsInstanceOfType(targetControl.Content, typeof(UserControl2));
-            Assert.AreEqual(typeof(UserControl2).Name, navSvc.CurrentPageKey);
+            Assert.IsInstanceOfType(targetControl.Content, typeof(View2));
+            Assert.AreEqual(typeof(View2).Name, navSvc.CurrentPageKey);
             Assert.AreEqual(uc2Model, navSvc.ViewParameter);
         }
         #endregion
 
-        internal sealed class UserControl1 : UserControl { }
-        internal sealed class UserControl2 : UserControl { }
-        internal sealed class UserControl3 : UserControl { }
+        internal sealed class View1 : UserControl { }
+        internal sealed class View2 : UserControl { }
+        internal sealed class View3 : UserControl { }
     }
 }
