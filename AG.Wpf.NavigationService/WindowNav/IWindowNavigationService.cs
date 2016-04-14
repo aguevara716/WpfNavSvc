@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Views;
 
-namespace AG.Wpf.NavigationService
+namespace AG.Wpf.NavigationService.WindowNav
 {
     /// <summary>
     /// An interface defining how opening Windows and passing parameters to them

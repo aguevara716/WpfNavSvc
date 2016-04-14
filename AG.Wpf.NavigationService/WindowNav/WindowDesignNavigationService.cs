@@ -1,4 +1,4 @@
-﻿namespace AG.Wpf.NavigationService
+﻿namespace AG.Wpf.NavigationService.WindowNav
 {
     public class WindowDesignNavigationService : IWindowNavigationService
     {

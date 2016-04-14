@@ -1,8 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Views;
 
-namespace AG.Wpf.NavigationService
+namespace AG.Wpf.NavigationService.UserControlNav
 {
-    public interface IFrameNavigationService : INavigationService
+    public interface IContentNavigationService : INavigationService
     {
         new string CurrentPageKey { get; set; }
         object ViewParameter { get; }

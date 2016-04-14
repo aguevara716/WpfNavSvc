@@ -1,4 +1,4 @@
-﻿namespace AG.Wpf.NavigationService
+﻿namespace AG.Wpf.NavigationService.UserControlNav
 {
     /// <summary>
     /// This is only meant to be used as a design-time navigation service.

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AG.Wpf.NavigationService
+namespace AG.Wpf.NavigationService.FrameNav
 {
     public class FrameNavigationService : ObservableObject, IFrameNavigationService
     {

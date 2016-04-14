@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AG.Wpf.NavigationService
+namespace AG.Wpf.NavigationService.UserControlNav
 {
     public class ContentNavigationService : ObservableObject, IContentNavigationService
     {
@@ -122,15 +122,15 @@ namespace AG.Wpf.NavigationService
             NavigateTo(pageKey, parameter, NavigationDirection.Next);
         }
 
-        public void ConfigureView<T>(string key) where T : UserControl
+        public void ConfigureView<UserControl>(string key)
         {
             lock (viewsByKey)
             {
                 if (viewsByKey.ContainsKey(key) == true)
-                    throw new ArgumentException($"This key has already been used: {key}", nameof(key));
-                if (viewsByKey.ContainsValue(typeof(T)) == true)
-                    throw new ArgumentException($"This type has already been configured with key {viewsByKey.First(t => t.Value == typeof(T))}", nameof(T));
-                viewsByKey.Add(key, typeof(T));
+                    throw new ArgumentException($"This key has already been used: \"{key}\"", nameof(key));
+                if (viewsByKey.ContainsValue(typeof(UserControl)) == true)
+                    throw new ArgumentException($"This type has already been configured with key \"{viewsByKey.First(t => t.Value == typeof(UserControl)).Key}\"", nameof(UserControl));
+                viewsByKey.Add(key, typeof(UserControl));
             }
         }
         #endregion

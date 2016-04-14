@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace AG.Wpf.NavigationService
+namespace AG.Wpf.NavigationService.WindowNav
 {
     public class WindowNavigationService : IWindowNavigationService
     {
