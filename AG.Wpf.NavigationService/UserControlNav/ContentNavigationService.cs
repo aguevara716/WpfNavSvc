@@ -121,15 +121,15 @@ namespace AG.Wpf.NavigationService.UserControlNav
             NavigateTo(pageKey, parameter, NavigationDirection.Next);
         }
 
-        public void ConfigureView<UserControl>(string key)
+        public void ConfigureView<T>(string key) where T : UserControl
         {
             lock (viewsByKey)
             {
                 if (viewsByKey.ContainsKey(key) == true)
                     throw new ArgumentException($"This key has already been used: \"{key}\"", nameof(key));
-                if (viewsByKey.ContainsValue(typeof(UserControl)) == true)
-                    throw new ArgumentException($"This type has already been configured with key \"{viewsByKey.First(t => t.Value == typeof(UserControl)).Key}\"", nameof(UserControl));
-                viewsByKey.Add(key, typeof(UserControl));
+                if (viewsByKey.ContainsValue(typeof(T)) == true)
+                    throw new ArgumentException($"This type has already been configured with key \"{viewsByKey.First(t => t.Value == typeof(T)).Key}\"", nameof(T));
+                viewsByKey.Add(key, typeof(T));
             }
         }
         #endregion
