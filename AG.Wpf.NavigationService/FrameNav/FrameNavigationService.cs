@@ -1,13 +1,12 @@
-﻿using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace AG.Wpf.NavigationService.FrameNav
 {
-    public class FrameNavigationService : ObservableObject, IFrameNavigationService
+    public class FrameNavigationService : INotifyPropertyChanged, INavigationService
     {
         #region Variables
         private readonly Func<Frame> FRAME_GETTER;
@@ -22,7 +21,14 @@ namespace AG.Wpf.NavigationService.FrameNav
         public string CurrentPageKey
         {
             get { return currentPageKey; }
-            set { Set(nameof(CurrentPageKey), ref currentPageKey, value); }
+            set
+            {
+                if (value != this.currentPageKey)
+                {
+                    this.currentPageKey = value;
+                    RaisePropertyChanged(nameof(CurrentPageKey));
+                }
+            }
         }
         #endregion
 
@@ -105,6 +111,15 @@ namespace AG.Wpf.NavigationService.FrameNav
                     throw new ArgumentException($"This type has already been configured with key {pagesByKey.First(p => p.Value == pageUri).Key}", nameof(pageUri));
                 pagesByKey.Add(key, pageUri);
             }
+        }
+        #endregion
+
+        #region INotifyPropertyChanged implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

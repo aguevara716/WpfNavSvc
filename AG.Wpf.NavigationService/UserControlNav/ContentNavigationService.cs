@@ -1,12 +1,12 @@
-﻿using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 
 namespace AG.Wpf.NavigationService.UserControlNav
 {
-    public class ContentNavigationService : ObservableObject, IContentNavigationService
+    public class ContentNavigationService : INotifyPropertyChanged, INavigationService
     {
         #region Variables
         private readonly Func<ContentControl> CONTENT_GETTER;
@@ -23,7 +23,14 @@ namespace AG.Wpf.NavigationService.UserControlNav
         public string CurrentPageKey
         {
             get { return currentPageKey; }
-            set { Set(nameof(CurrentPageKey), ref currentPageKey, value); }
+            set
+            {
+                if (value != this.currentPageKey)
+                {
+                    this.currentPageKey = value;
+                    RaisePropertyChanged(nameof(CurrentPageKey));
+                }
+            }
         }
         #endregion
 
@@ -131,6 +138,15 @@ namespace AG.Wpf.NavigationService.UserControlNav
                     throw new ArgumentException($"This type has already been configured with key \"{viewsByKey.First(t => t.Value == typeof(T)).Key}\"", nameof(T));
                 viewsByKey.Add(key, typeof(T));
             }
+        }
+        #endregion
+
+        #region INotifyPropertyChanged implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
