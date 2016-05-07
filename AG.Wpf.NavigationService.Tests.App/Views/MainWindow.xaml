@@ -7,36 +7,51 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:c="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        DataContext="{Binding Main, Source={StaticResource Locator}}"
         WindowStartupLocation="CenterScreen"
         Title="Navigation Service Sample" 
         Height="320" Width="380">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <c:EventToCommand Command="{Binding LoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <UniformGrid Columns="2">
+        <Border BorderBrush="Black" 
+                BorderThickness="0 0 1 0" 
+                DataContext="{Binding Main, Source={StaticResource PageLocator}}">
+            <Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <c:EventToCommand Command="{Binding LoadedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Page Navigation"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding FrameNav.CurrentPageKey}"/>
-        <Frame Grid.Row="2" Grid.Column="0" Name="MainFrame" NavigationUIVisibility="Hidden"/>
+                <TextBlock Grid.Row="0" Text="Page Navigation"/>
+                <TextBlock Grid.Row="1" Text="{Binding ViewNavService.CurrentPageKey}"/>
+                <Frame Grid.Row="2" Name="MainFrame" NavigationUIVisibility="Hidden"/>
+            </Grid>
+        </Border>
+        <Border BorderBrush="Black"
+                BorderThickness="1 0 0 0"
+                DataContext="{Binding Main, Source={StaticResource ControlLocator}}">
+            <Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <c:EventToCommand Command="{Binding LoadedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="UserControl Navigation"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ContentNav.CurrentPageKey}"/>
-        <ContentControl Grid.Row="2" Grid.Column="1" Name="MainContent"/>
-        
-    </Grid>
+                <TextBlock Grid.Row="0" Text="UserControl Navigation"/>
+                <TextBlock Grid.Row="1" Text="{Binding ViewNavService.CurrentPageKey}"/>
+                <ContentControl Grid.Row="2" Name="MainContent"/>
+            </Grid>
+        </Border>
+    </UniformGrid>
     
 </Window>

@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:c="http://www.galasoft.ch/mvvmlight"
-      DataContext="{Binding Source={StaticResource Locator}, Path=Page1}"
+      DataContext="{Binding Source={StaticResource PageLocator}, Path=Page1}"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Page1View">
 

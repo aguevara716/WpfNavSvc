@@ -9,9 +9,12 @@
     
     <Application.Resources>
         <ResourceDictionary>
-            <vm:ViewModelLocator x:Key="Locator" 
-                                 d:IsDataSource="True" 
-                                 xmlns:vm="clr-namespace:AG.Wpf.NavigationService.Tests.App.ViewModels" />
+            <vm:PageViewModelLocator x:Key="PageLocator" 
+                                     d:IsDataSource="True" 
+                                     xmlns:vm="clr-namespace:AG.Wpf.NavigationService.Tests.App.ViewModels" />
+            <vm:ControlViewModelLocator x:Key="ControlLocator" 
+                                        d:IsDataSource="True" 
+                                        xmlns:vm="clr-namespace:AG.Wpf.NavigationService.Tests.App.ViewModels" />
             
             <Style TargetType="Page">
                 <Setter Property="Background" Value="White"/>

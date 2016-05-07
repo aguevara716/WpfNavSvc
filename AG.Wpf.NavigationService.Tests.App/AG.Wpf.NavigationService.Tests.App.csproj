@@ -75,11 +75,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\ControlViewModelLocator.cs" />
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\DesignDataService.cs" />
     <Compile Include="Data\IDataService.cs" />
+    <Compile Include="ViewModels\PageViewModelLocator.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\View1ViewModel.cs" />
     <Compile Include="ViewModels\View2ViewModel.cs" />
     <Compile Include="ViewModels\View3ViewModel.cs" />
