@@ -54,7 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -78,17 +78,11 @@
     <Compile Include="Data\DataService.cs" />
     <Compile Include="Data\DesignDataService.cs" />
     <Compile Include="Data\IDataService.cs" />
-    <Compile Include="ViewModels\Ctrl1ViewModel.cs" />
-    <Compile Include="ViewModels\Ctrl2ViewModel.cs" />
-    <Compile Include="ViewModels\Ctrl3ViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Page1ViewModel.cs" />
-    <Compile Include="ViewModels\Page2ViewModel.cs" />
-    <Compile Include="ViewModels\Page3ViewModel.cs" />
-    <Compile Include="ViewModels\View1ViewModelBase.cs" />
-    <Compile Include="ViewModels\View2ViewModelBase.cs" />
-    <Compile Include="ViewModels\View3ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\View1ViewModel.cs" />
+    <Compile Include="ViewModels\View2ViewModel.cs" />
+    <Compile Include="ViewModels\View3ViewModel.cs" />
     <Compile Include="Views\Dialog1Window.xaml.cs">
       <DependentUpon>Dialog1Window.xaml</DependentUpon>
     </Compile>

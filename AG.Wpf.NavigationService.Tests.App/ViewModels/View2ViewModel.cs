@@ -3,21 +3,18 @@ using AG.Wpf.NavigationService.WindowNav;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
-    public abstract class View2ViewModelBase : ViewModelBase
+    public class View2ViewModel : ViewModelBase
     {
         #region Variables
-        protected readonly IWindowNavigationService windowNavService;
+        private readonly INavigationService viewNavService;
+        private readonly IWindowNavigationService windowNavService;
         #endregion
 
         #region Binding variables
-        protected string name;
+        private string name;
         public string Name
         {
             get { return name; }
@@ -26,19 +23,22 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #endregion
 
         #region Commands
-        public RelayCommand LoadedCommand { get; protected set; }
+        public RelayCommand LoadedCommand { get; private set; }
         public RelayCommand NextCommand { get; private set; }
         public RelayCommand BackCommand { get; private set; }
         public RelayCommand ForwardCommand { get; private set; }
-        public RelayCommand DialogCommand { get; protected set; }
-        public RelayCommand WindowCommand { get; protected set; }
+        public RelayCommand DialogCommand { get; private set; }
+        public RelayCommand WindowCommand { get; private set; }
         #endregion
 
         #region Constructors
-        public View2ViewModelBase(IDataService data, IWindowNavigationService wns)
+        public View2ViewModel(IDataService d, INavigationService v, IWindowNavigationService w)
         {
-            windowNavService = wns;
-            this.Name = data.GetName();
+            viewNavService = v;
+            windowNavService = w;
+
+            this.Name = d.GetName();
+
             LoadedCommand = new RelayCommand(LoadedExecuted);
             BackCommand = new RelayCommand(BackExecuted, BackCanExecute);
             ForwardCommand = new RelayCommand(ForwardExecuted, ForwardCanExecute);
@@ -49,22 +49,48 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #endregion
 
         #region Commands CanExecute
-        protected abstract bool NextCanExecute();
-        protected abstract bool BackCanExecute();
-        protected abstract bool ForwardCanExecute();
+        private bool NextCanExecute()
+        {
+            return String.IsNullOrEmpty(Name) == false;
+        }
+
+        private bool BackCanExecute()
+        {
+            return viewNavService.CanGoBack();
+        }
+
+        private bool ForwardCanExecute()
+        {
+            return viewNavService.CanGoForward();
+        }
         #endregion
 
         #region Commands Executed
-        protected abstract void LoadedExecuted();
-        protected abstract void NextExecuted();
-        protected abstract void BackExecuted();
-        protected abstract void ForwardExecuted();
-        protected void DialogExecuted()
+        private void LoadedExecuted()
+        {
+            Name = viewNavService.ViewParameter as String;
+        }
+
+        private void NextExecuted()
+        {
+            viewNavService.NavigateTo(typeof(View3ViewModel).Name);
+        }
+
+        private void BackExecuted()
+        {
+            viewNavService.GoBack();
+        }
+
+        private void ForwardExecuted()
+        {
+            viewNavService.GoForward();
+        }
+        private void DialogExecuted()
         {
             windowNavService.OpenWindow("window", false, true);
         }
 
-        protected void WindowExecuted()
+        private void WindowExecuted()
         {
             windowNavService.OpenWindow("window", false, false);
         }

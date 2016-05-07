@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
-    public abstract class View3ViewModelBase : ViewModelBase
+    public class View3ViewModel : ViewModelBase
     {
         #region Variables
         private bool continueLooping;
-        protected readonly IWindowNavigationService windowNavService;
+        private readonly INavigationService viewNavService;
+        private readonly IWindowNavigationService windowNavService;
         #endregion
 
         #region Binding variables
-        protected DateTime currentTime;
+        private DateTime currentTime;
         public DateTime CurrentTime
         {
             get { return currentTime; }
@@ -23,18 +24,20 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #endregion
 
         #region Commands
-        public RelayCommand LoadedCommand { get; protected set; }
-        public RelayCommand UnloadedCommand { get; protected set; }
-        public RelayCommand BackCommand { get; protected set; }
-        public RelayCommand ForwardCommand { get; protected set; }
-        public RelayCommand DialogCommand { get; protected set; }
-        public RelayCommand WindowCommand { get; protected set; }
+        public RelayCommand LoadedCommand { get; private set; }
+        public RelayCommand UnloadedCommand { get; private set; }
+        public RelayCommand BackCommand { get; private set; }
+        public RelayCommand ForwardCommand { get; private set; }
+        public RelayCommand DialogCommand { get; private set; }
+        public RelayCommand WindowCommand { get; private set; }
         #endregion
 
         #region Constructors
-        public View3ViewModelBase(IWindowNavigationService wns)
+        public View3ViewModel(INavigationService v, IWindowNavigationService w)
         {
-            windowNavService = wns;
+            this.viewNavService = v;
+            this.windowNavService = w;
+
             CurrentTime = DateTime.Now;
 
             LoadedCommand = new RelayCommand(LoadedExecuted);
@@ -46,16 +49,20 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         }
         #endregion
 
-        #region Private methods
-        #endregion
-
         #region Commands CanExecute
-        protected abstract bool BackCanExecute();
-        protected abstract bool ForwardCanExecute();
+        private bool BackCanExecute()
+        {
+            return viewNavService.CanGoBack();
+        }
+
+        private bool ForwardCanExecute()
+        {
+            return viewNavService.CanGoForward();
+        }
         #endregion
 
         #region Commands Executed
-        protected async void LoadedExecuted()
+        private async void LoadedExecuted()
         {
             continueLooping = true;
             while (continueLooping == true)
@@ -65,19 +72,26 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
             }
         }
 
-        protected void UnloadedExecuted()
+        private void UnloadedExecuted()
         {
             continueLooping = false;
         }
 
-        protected abstract void BackExecuted();
-        protected abstract void ForwardExecuted();
-        protected void DialogExecuted()
+        private void BackExecuted()
+        {
+            viewNavService.GoBack();
+        }
+
+        private void ForwardExecuted()
+        {
+            viewNavService.GoForward();
+        }
+        private void DialogExecuted()
         {
             windowNavService.OpenWindow("window", false, true);
         }
 
-        protected void WindowExecuted()
+        private void WindowExecuted()
         {
             windowNavService.OpenWindow("window", false, false);
         }
