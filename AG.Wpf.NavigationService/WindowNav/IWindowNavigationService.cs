@@ -1,10 +1,8 @@
-﻿using GalaSoft.MvvmLight.Views;
-
-namespace AG.Wpf.NavigationService.WindowNav
+﻿namespace AG.Wpf.NavigationService.WindowNav
 {
     /// <summary>
     /// An interface defining how opening Windows and passing parameters to them
-    /// should be performed in WPF following the MVVM design pattern.
+    /// should be performed in WPF when following the MVVM design pattern.
     /// </summary>
     public interface IWindowNavigationService
     {
