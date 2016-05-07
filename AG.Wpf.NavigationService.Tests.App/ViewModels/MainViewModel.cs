@@ -1,6 +1,3 @@
-using AG.Wpf.NavigationService.FrameNav;
-using AG.Wpf.NavigationService.Tests.App.Data;
-using AG.Wpf.NavigationService.UserControlNav;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
@@ -8,13 +5,8 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        #region Variables
-        private readonly IDataService dataService;
-        #endregion
-
         #region Binding variables
-        public IFrameNavigationService FrameNav { get; private set; }
-        public IContentNavigationService ContentNav { get; private set; }
+        public INavigationService ViewNavService { get; private set; }
         #endregion
 
         #region Commands
@@ -22,12 +14,9 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #endregion
 
         #region Constructors
-        public MainViewModel(IDataService d, IFrameNavigationService f, IContentNavigationService c)
+        public MainViewModel(INavigationService v)
         {
-            dataService = d;
-            FrameNav = f;
-            ContentNav = c;
-
+            ViewNavService = v;
             LoadedCommand = new RelayCommand(LoadedExecuted);
         }
         #endregion
@@ -35,8 +24,7 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         #region Commands Executed
         private void LoadedExecuted()
         {
-            FrameNav.NavigateTo(typeof(Page1ViewModel).Name);
-            ContentNav.NavigateTo(typeof(Ctrl1ViewModel).Name);
+            ViewNavService.NavigateTo(typeof(View1ViewModel).Name);
         }
         #endregion
 
