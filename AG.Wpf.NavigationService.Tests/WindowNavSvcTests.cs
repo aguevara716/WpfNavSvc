@@ -20,8 +20,8 @@ namespace AG.Wpf.NavigationService.Tests
         {
             try
             {
-                navSvc.ConfigureWindow(typeof(Window1).Name, () => new Window1());
-                navSvc.ConfigureWindow(typeof(Window1).Name, () => new Window2());
+                navSvc.ConfigureWindow<Window1>(typeof(Window1).Name);
+                navSvc.ConfigureWindow<Window2>(typeof(Window1).Name);
                 Assert.Fail("The exception wasn't thrown");
             }
             catch (ArgumentException ex)
@@ -31,13 +31,13 @@ namespace AG.Wpf.NavigationService.Tests
         }
 
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         public void TestConfiguringWindowDuplicateViews()
         {
             try
             {
-                navSvc.ConfigureWindow(typeof(Window1).Name, () => new Window1());
-                navSvc.ConfigureWindow(typeof(Window1).Name + "-1", () => new Window1());
+                navSvc.ConfigureWindow<Window1>(typeof(Window1).Name);
+                navSvc.ConfigureWindow<Window1>(typeof(Window1).Name + "-1");
                 Assert.Fail("The exception wasn't thrown");
             }
             catch (ArgumentException ex)

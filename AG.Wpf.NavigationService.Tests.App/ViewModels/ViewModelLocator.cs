@@ -79,7 +79,7 @@ namespace AG.Wpf.NavigationService.Tests.App.ViewModels
         private WindowNavigationService CreateWindowNavSvc()
         {
             var wns = new WindowNavigationService(() => App.Current.MainWindow);
-            wns.ConfigureWindow("window", () => new Dialog1Window());
+            wns.ConfigureWindow<Dialog1Window>("window");
             return wns;
         }
 
