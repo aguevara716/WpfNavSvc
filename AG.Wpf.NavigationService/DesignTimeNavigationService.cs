@@ -1,9 +1,9 @@
-﻿namespace AG.Wpf.NavigationService.UserControlNav
+﻿namespace AG.Wpf.NavigationService
 {
     /// <summary>
     /// This is only meant to be used as a design-time navigation service.
     /// </summary>
-    public class ContentDesignNavigationService : IContentNavigationService
+    public sealed class DesignTimeNavigationService : INavigationService
     {
         public string CurrentPageKey { get; set; }
         public object ViewParameter { get { return null; } }
